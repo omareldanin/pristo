@@ -52,19 +52,19 @@ export class NotificationController {
     });
   }
   @UseGuards(JwtAuthGuard)
-  @Patch(':id')
-  updateNotification(@Param() params: any) {
-    return this.notificationService.updateNotificationSeen({
-      id: +params.id,
-    });
-  }
-  @UseGuards(JwtAuthGuard)
   @Patch('updateUserSeen')
   updateUserSeen(@Req() req) {
     const loggedInUser = req.user as LoggedInUserType;
 
     return this.notificationService.updateUserNotificationsSeen({
       userId: +loggedInUser.id,
+    });
+  }
+  @UseGuards(JwtAuthGuard)
+  @Patch('edit/:id')
+  updateNotification(@Param() params: any) {
+    return this.notificationService.updateNotificationSeen({
+      id: +params.id,
     });
   }
 }
