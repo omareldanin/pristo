@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "Vendor" ADD COLUMN     "active" BOOLEAN NOT NULL DEFAULT true,
+ADD COLUMN     "deliveryCostOffer" DECIMAL(65,30) NOT NULL DEFAULT 0,
+ADD COLUMN     "hasOffer" BOOLEAN NOT NULL DEFAULT false;

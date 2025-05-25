@@ -45,7 +45,7 @@ export class AddressController {
   @UseInterceptors(NoFilesInterceptor())
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  deleteAddress(@Param() params: any, @Req() req) {
+  deleteAddress(@Param() params: any) {
     return this.addressService.deleteUserAddress(+params.id);
   }
 }

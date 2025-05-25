@@ -33,25 +33,62 @@ enum TransactionType {
   WITHDRAW
 }
 
+enum VendorStatus {
+  OPEN
+  CLOSED
+  SOON
+}
+
 model User {
-  id            Int             @id @default(autoincrement())
-  phone         String          @unique
-  name          String?
-  avatar        String?
-  fcm           String?
-  password      String
-  token         String
-  refresh_token String?
-  wallet        Decimal         @default(0)
-  role          UserRole
-  addresses     UserAddresses[]
-  transaction   Transaction[]
-  notifications Notification[]
-  deleted       Boolean         @default(false)
-  deletedAt     DateTime?
+  id             Int             @id @default(autoincrement())
+  phone          String          @unique
+  name           String?
+  avatar         String?
+  fcm            String?
+  password       String
+  token          String
+  refresh_token  String?
+  wallet         Decimal         @default(0)
+  role           UserRole
+  addresses      UserAddresses[]
+  transaction    Transaction[]
+  notifications  Notification[]
+  deleted        Boolean         @default(false)
+  deletedAt      DateTime?
+  // relations---------------------------------------------------------------------//
+  vendor         Vendor?
   // --- OTHER --------------------------------------------------------------------- //
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  vendorId       Int?
+  MainCategory   MainCategory?   @relation(fields: [mainCategoryId], references: [id])
+  mainCategoryId Int?
+  homeCategory   HomeCategory?   @relation(fields: [homeCategoryId], references: [id])
+  homeCategoryId Int?
+  SubCategory    SubCategory?    @relation(fields: [subCategoryId], references: [id])
+  subCategoryId  Int?
+  complain       Complain[]
+}
+
+model Vendor {
+  id                Int          @id
+  name              Json
+  weekTimes         Json?
+  status            VendorStatus @default(OPEN)
+  location          String?
+  longitudes        String?
+  latitude          String?
+  cover             String?
+  feature           Boolean      @default(false)
+  active            Boolean      @default(true)
+  deliveryCost      Decimal      @default(0)
+  deliveryCostOffer Decimal      @default(0)
+  hasOffer          Boolean      @default(false)
+  pickUp            Boolean      @default(false)
+  orderTime         Int          @default(0)
+  rate              Decimal      @default(0)
+  reviewsCount      Int          @default(0)
+  user              User         @relation(fields: [id], references: [id])
 }
 
 model UserAddresses {
@@ -94,4 +131,66 @@ model Notification {
   createdAt DateTime           @default(now())
 
   @@index([userId])
+}
+
+model Banner {
+  id        Int      @id @default(autoincrement())
+  order     Int
+  image     String
+  createdBy String
+  active    Boolean  @default(true)
+  // --- OTHER --------------------------------------------------------------------- //
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MainCategory {
+  id          Int           @id @default(autoincrement())
+  name        Json
+  description Json
+  image       String
+  active      Boolean       @default(true)
+  deleted     Boolean       @default(false)
+  deletedBy   String?
+  createdBy   String
+  vendors     User[]
+  categories  SubCategory[]
+  // --- OTHER --------------------------------------------------------------------- //
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model SubCategory {
+  id             Int           @id @default(autoincrement())
+  name           Json
+  image          String
+  vendors        User[]
+  // --- OTHER --------------------------------------------------------------------- //
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  mainCategory   MainCategory? @relation(fields: [mainCategoryId], references: [id])
+  mainCategoryId Int?
+}
+
+model HomeCategory {
+  id        Int      @id @default(autoincrement())
+  name      Json
+  image     String?
+  order     Int
+  active    Boolean  @default(true)
+  vendors   User[]
+  // --- OTHER ---------------------------------------------------------------------//
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Complain {
+  id          Int      @id @default(autoincrement())
+  title       String?
+  description String?
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  // --- OTHER ---------------------------------------------------------------------//
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
