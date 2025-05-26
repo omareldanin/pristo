@@ -42,6 +42,10 @@ export const VendorUpdateSchema = VendorCreateSchema.partial();
 
 export type VendorUpdateType = z.infer<typeof VendorUpdateSchema>;
 
+const SubCategorySchema = z.union([
+  z.array(z.number()),
+  z.string().transform((val) => JSON.parse(val) as number[]),
+]);
 export const VendorFilterSchema = z.object({
   status: z.nativeEnum(VendorStatus).optional(),
   phone: z.string().optional(),
@@ -55,7 +59,7 @@ export const VendorFilterSchema = z.object({
   active: coerceBooleanFromString.optional(),
   mainCategoryId: z.coerce.number().optional(),
   homeCategoryId: z.coerce.number().optional(),
-  subCategoryId: z.coerce.number().optional(),
+  subCategoryId: SubCategorySchema.optional(),
 });
 
 export type VendorFiltersType = z.infer<typeof VendorFilterSchema>;

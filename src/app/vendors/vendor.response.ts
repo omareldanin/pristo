@@ -6,6 +6,8 @@ dayjs.extend(customParseFormat);
 export const vendorSelect = {
   id: true,
   avatar: true,
+  subCategoryId: true,
+  mainCategoryId: true,
   vendor: {
     select: {
       deliveryCost: true,
@@ -48,6 +50,8 @@ export const vendorReform = (
   const vendorReformed = {
     id: vendor.id,
     avatar: vendor.avatar,
+    subCategoryId: vendor.subCategoryId,
+    mainCategoryId: vendor.mainCategoryId,
     ...vendor.vendor,
     status: isOpen ? 'OPEN' : 'CLOSED',
   };

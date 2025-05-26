@@ -102,7 +102,11 @@ export class VendorsService {
         contains: filters.phone,
         mode: 'insensitive',
       },
-      subCategoryId: +filters.subCategoryId || undefined,
+      SubCategory: filters.subCategoryId?.length
+        ? {
+            id: { in: filters.subCategoryId },
+          }
+        : undefined,
       mainCategoryId: +filters.mainCategoryId || undefined,
       homeCategoryId: +filters.homeCategoryId || undefined,
       vendor: {
@@ -112,6 +116,7 @@ export class VendorsService {
         pickUp: filters.pickUp,
       },
     } satisfies Prisma.UserWhereInput;
+    console.log(where);
 
     const [results, total] = await Promise.all([
       this.prisma.user.findMany({
