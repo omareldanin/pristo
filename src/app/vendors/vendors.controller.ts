@@ -121,8 +121,8 @@ export class VendorsController {
     @Body()
     data: VendorCreateType,
   ) {
-    const imageFile = files.image?.[0]?.filename ?? null;
-    const coverFile = files.cover?.[0]?.filename ?? null;
+    const imageFile = files?.image?.[0]?.filename ?? null;
+    const coverFile = files?.cover?.[0]?.filename ?? null;
 
     const vendorData = VendorUpdateSchema.parse(data);
 

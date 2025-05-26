@@ -86,6 +86,7 @@ model Vendor {
   hasOffer          Boolean      @default(false)
   pickUp            Boolean      @default(false)
   orderTime         Int          @default(0)
+  offerName         String?
   rate              Decimal      @default(0)
   reviewsCount      Int          @default(0)
   user              User         @relation(fields: [id], references: [id])

@@ -21,7 +21,7 @@ export const VendorCreateSchema = z.object({
   longitudes: z.string().optional(),
   latitude: z.string().optional(),
   avatar: z.string().optional(),
-  weekTimes: z.string().optional(),
+  weekTimes: z.any().optional(),
   cover: z.string().optional(),
   feature: coerceBooleanFromString,
   active: coerceBooleanFromString,
@@ -33,6 +33,7 @@ export const VendorCreateSchema = z.object({
   mainCategoryId: z.coerce.number(),
   homeCategoryId: z.coerce.number(),
   subCategoryId: z.coerce.number(),
+  offerName: z.string().optional(),
 });
 
 export type VendorCreateType = z.infer<typeof VendorCreateSchema>;

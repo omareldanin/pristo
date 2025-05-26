@@ -12,6 +12,7 @@ import { HomeCategoryModule } from './app/home-category/home-category.module';
 import { VendorsModule } from './app/vendors/vendors.module';
 import { SubCategoryModule } from './app/sub-category/sub-category.module';
 import { ComplainModule } from './app/complain/complain.module';
+import { SharedModule } from './app/shared/shared.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ComplainModule } from './app/complain/complain.module';
     VendorsModule,
     SubCategoryModule,
     ComplainModule,
+    SharedModule,
   ],
   controllers: [AppController],
   providers: [AppService],

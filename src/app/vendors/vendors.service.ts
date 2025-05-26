@@ -12,9 +12,12 @@ import {
 import * as bcrypt from 'bcrypt';
 import { env } from 'src/config';
 import { Prisma, VendorStatus } from '@prisma/client';
-import { vendorSelect } from './vendor.response';
+import { vendorReform, vendorSelect } from './vendor.response';
 
 function safeParseJson(input: string): any {
+  if (typeof input === 'object') {
+    return input; // already parsed
+  }
   try {
     return JSON.parse(input);
   } catch (e) {
@@ -126,7 +129,7 @@ export class VendorsService {
       count: total,
       page,
       totalPages: Math.ceil(total / pageSize),
-      results: results,
+      results: results.map((v) => vendorReform(v)),
     };
   }
 

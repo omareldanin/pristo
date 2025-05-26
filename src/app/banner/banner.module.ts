@@ -4,6 +4,7 @@ import { BannerController } from './banner.controller';
 
 @Module({
   providers: [BannerService],
-  controllers: [BannerController]
+  controllers: [BannerController],
+  exports: [BannerService],
 })
 export class BannerModule {}

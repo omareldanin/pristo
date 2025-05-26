@@ -4,6 +4,7 @@ import { HomeCategoryService } from './home-category.service';
 
 @Module({
   controllers: [HomeCategoryController],
-  providers: [HomeCategoryService]
+  providers: [HomeCategoryService],
+  exports: [HomeCategoryService],
 })
 export class HomeCategoryModule {}
