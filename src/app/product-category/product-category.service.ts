@@ -51,7 +51,7 @@ export class ProductCategoryService {
         id: +data.id,
       },
       data: {
-        name: data.name,
+        name: data.name ? safeParseJson(data.name) : undefined,
         MainCategory: data.mainCategoryId
           ? {
               connect: {
