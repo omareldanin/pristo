@@ -42,8 +42,6 @@ export const categoryReform = (
 
   const now = dayjs(); // current time
   const dayKey = now.format('dddd').toLowerCase(); // e.g. "monday"
-  now.format('hh:mm A');
-  console.log(now);
 
   const categoryReformed = {
     ...category,
@@ -60,7 +58,10 @@ export const categoryReform = (
         const from = dayjs(parsedTimes[dayKey].from, 'hh:mm a');
         const to = dayjs(parsedTimes[dayKey].to, 'hh:mm a');
 
-        return now.isAfter(from) && now.isBefore(to);
+        // If 'to' is before 'from', assume it's overnight (e.g., 10 PM to 2 AM)
+        const adjustedTo = to.isBefore(from) ? to.add(1, 'day') : to;
+
+        return now.isAfter(from) && now.isBefore(adjustedTo);
       })
       .map((v) => ({
         id: v.id,
