@@ -166,4 +166,17 @@ export class ProductController {
 
     return result;
   }
+  @UseGuards(JwtAuthGuard)
+  @Delete('/deleteGroup/:id')
+  deleteGroup(@Param('id') id: number) {
+    const result = this.productService.deleteGroup(+id);
+    return result;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('/deleteOption/:id')
+  deleteOption(@Param('id') id: number) {
+    const result = this.productService.deleteOption(+id);
+    return result;
+  }
 }
