@@ -42,6 +42,7 @@ export const categoryReform = (
 
   const now = dayjs(); // current time
   const dayKey = now.format('dddd').toLowerCase(); // e.g. "monday"
+  now.format('hh:mm A');
   console.log(now);
 
   const categoryReformed = {
