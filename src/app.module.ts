@@ -16,6 +16,9 @@ import { VendorsModule } from './app/vendors/vendors.module';
 import { SubCategoryModule } from './app/sub-category/sub-category.module';
 import { ComplainModule } from './app/complain/complain.module';
 import { SharedModule } from './app/shared/shared.module';
+import { ProductCategoryModule } from './app/product-category/product-category.module';
+import { FavoritesModule } from './app/favorites/favorites.module';
+import { ProductModule } from './app/product/product.module';
 
 @Module({
   imports: [
@@ -35,6 +38,9 @@ import { SharedModule } from './app/shared/shared.module';
     SubCategoryModule,
     ComplainModule,
     SharedModule,
+    ProductCategoryModule,
+    FavoritesModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],

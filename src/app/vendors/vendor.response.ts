@@ -10,14 +10,18 @@ export const vendorSelect = {
   mainCategoryId: true,
   vendor: {
     select: {
-      deliveryCost: true,
-      deliveryCostOffer: true,
+      id: true,
       name: true,
       cover: true,
       rate: true,
-      pickUp: true,
+      reviewsCount: true,
+      deliveryCost: true,
+      deliveryCostOffer: true,
       hasOffer: true,
+      offerName: true,
+      pickUp: true,
       weekTimes: true,
+      orderTime: true,
     },
   },
 } satisfies Prisma.UserSelect;

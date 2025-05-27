@@ -7,7 +7,6 @@ import {
   Patch,
   Post,
   Query,
-  Req,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -16,7 +15,6 @@ import { JwtAuthGuard } from 'src/middlewares/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
-import { LoggedInUserType } from '../auth/auth.dto';
 import { SubCategoryService } from './sub-category.service';
 
 @Controller('sub-category')

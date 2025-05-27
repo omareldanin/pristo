@@ -75,6 +75,9 @@ export class VendorsService {
         },
         name: safeParseJson(data.vendorData.name),
         weekTimes: safeParseJson(data.vendorData.weekTimes),
+        offerName: data.vendorData.offerName
+          ? safeParseJson(data.vendorData.offerName)
+          : undefined,
         cover: 'uploads/' + data.vendorData.cover,
         status: data.vendorData.status,
         latitude: data.vendorData.latitude,
@@ -116,12 +119,24 @@ export class VendorsService {
         pickUp: filters.pickUp,
       },
     } satisfies Prisma.UserWhereInput;
-    console.log(where);
 
     const [results, total] = await Promise.all([
       this.prisma.user.findMany({
         where: where,
         select: vendorSelect,
+        orderBy: {
+          vendor: filters.rate
+            ? {
+                rate: 'desc',
+              }
+            : filters.time
+              ? {
+                  orderTime: 'asc',
+                }
+              : {
+                  id: 'asc',
+                },
+        },
         skip: (page - 1) * +pageSize,
         take: +pageSize,
       }),
@@ -183,6 +198,9 @@ export class VendorsService {
                 : undefined,
               weekTimes: data.vendorData.weekTimes
                 ? safeParseJson(data.vendorData.weekTimes)
+                : undefined,
+              offerName: data.vendorData.offerName
+                ? safeParseJson(data.vendorData.offerName)
                 : undefined,
               cover: data.vendorData.cover
                 ? 'uploads/' + data.vendorData.cover

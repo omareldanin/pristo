@@ -24,6 +24,7 @@ export const categorySelect = {
           pickUp: true,
           hasOffer: true,
           weekTimes: true,
+          offerName: true,
         },
       },
     },
