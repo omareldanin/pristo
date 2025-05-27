@@ -89,6 +89,7 @@ export class FavoritesService {
             name: true,
             price: true,
             image: true,
+            available: true,
           },
         },
         favoritesVendors: {
