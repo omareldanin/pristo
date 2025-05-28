@@ -86,6 +86,7 @@ export class ProductService {
           description: true,
           price: true,
           available: true,
+          image: true,
           ProductCategory: {
             select: {
               id: true,
@@ -132,6 +133,7 @@ export class ProductService {
         name: true,
         price: true,
         available: true,
+        image: true,
       },
       skip: 0,
       take: 10,
@@ -158,6 +160,7 @@ export class ProductService {
             name: true,
             price: true,
             available: true,
+            image: true,
           },
         },
       },
@@ -175,6 +178,7 @@ export class ProductService {
         description: true,
         price: true,
         available: true,
+        image: true,
         ProductCategory: {
           select: {
             id: true,
