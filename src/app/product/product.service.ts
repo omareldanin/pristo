@@ -217,7 +217,8 @@ export class ProductService {
       `
         SELECT 
           v.id AS "vendorId",
-          v.name AS "vendorName",
+          v.name AS "name",
+          v.cover AS "cover",
           json_agg(p.*) AS products
         FROM "Product" p
         JOIN "Vendor" v ON p."vendorId" = v.id
