@@ -79,6 +79,17 @@ export class ProductController {
     return result;
   }
 
+  @Get('/searchByName')
+  searchByName(
+    @Query()
+    filters: {
+      name: string;
+    },
+  ) {
+    const result = this.productService.searchByName(filters.name);
+
+    return result;
+  }
   @Get('/:id')
   getOne(
     @Param('id')

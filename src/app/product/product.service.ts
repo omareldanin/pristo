@@ -211,6 +211,28 @@ export class ProductService {
     return { product };
   }
 
+  async searchByName(name: string) {
+    const searchTerm = `%${name.toLowerCase()}%`;
+    const results = await this.prisma.$queryRawUnsafe(
+      `
+        SELECT 
+          v.id AS "vendorId",
+          v.name AS "vendorName",
+          json_agg(p.*) AS products
+        FROM "Product" p
+        JOIN "Vendor" v ON p."vendorId" = v.id
+        WHERE 
+          LOWER(p.name->>'en') LIKE $1 OR
+          LOWER(p.name->>'ar') LIKE $1 OR
+          LOWER(p.name->>'fr') LIKE $1
+        GROUP BY v.id
+      `,
+      searchTerm,
+    );
+
+    return results;
+  }
+
   async editOne(id: number, data: ProductUpdateType) {
     const product = await this.prisma.product.update({
       where: {
