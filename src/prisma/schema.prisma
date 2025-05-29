@@ -70,6 +70,7 @@ model User {
   SubCategory       SubCategory?    @relation(fields: [subCategoryId], references: [id])
   subCategoryId     Int?
   complain          Complain[]
+  cart              Cart?
 }
 
 model Vendor {
@@ -94,6 +95,7 @@ model Vendor {
   user              User         @relation(fields: [id], references: [id])
   //-------------------------------------------------------------------------------
   Product           Product[]
+  carts             Cart[]
   favoritedByUsers  User[]       @relation("UserFavoritesVendors")
 }
 
@@ -232,6 +234,7 @@ model Product {
   ProductCategory   ProductCategory? @relation(fields: [productCategoryId], references: [id])
   productCategoryId Int?
   groups            Group[]
+  cartProducts      CartProduct[]
 }
 
 model Group {
@@ -249,4 +252,33 @@ model Option {
   price   Decimal
   Group   Group?  @relation(fields: [groupId], references: [id])
   groupId Int?
+}
+
+model Cart {
+  id        Int           @id @default(autoincrement())
+  subtotal  Float         @default(0)
+  shipping  Float         @default(0)
+  total     Float         @default(0)
+  quantity  Int           @default(0)
+  vendor    Vendor?       @relation(fields: [vendorId], references: [id])
+  vendorId  Int?
+  user      User          @relation(fields: [userId], references: [id])
+  userId    Int           @unique
+  products  CartProduct[]
+  // --- OTHER ---------------------------------------------------------------------//
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+model CartProduct {
+  id        Int      @id @default(autoincrement())
+  subtotal  Float    @default(0)
+  total     Float    @default(0)
+  quantity  Int      @default(0)
+  groups    Json?
+  ordered   Boolean  @default(false)
+  Cart      Cart?    @relation(fields: [cartId], references: [id])
+  cartId    Int?
+  product   Product? @relation(fields: [productId], references: [id])
+  productId Int?
 }
