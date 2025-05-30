@@ -143,6 +143,64 @@ export class OrderService {
     return order;
   }
 
+  async getOneOrder(orderId: number) {
+    const order = this.prisma.order.findUnique({
+      where: {
+        id: +orderId,
+      },
+      select: {
+        id: true,
+        total: true,
+        subtotal: true,
+        shipping: true,
+        quantity: true,
+        status: true,
+        createdAt: true,
+        paymentMethod: true,
+        time: true,
+        User: {
+          select: {
+            id: true,
+            name: true,
+            phone: true,
+          },
+        },
+        Vendor: {
+          select: {
+            id: true,
+            name: true,
+            cover: true,
+          },
+        },
+        products: {
+          select: {
+            id: true,
+            total: true,
+            quantity: true,
+            subtotal: true,
+            product: {
+              select: {
+                id: true,
+                image: true,
+                name: true,
+                price: true,
+              },
+            },
+            groups: true,
+          },
+        },
+        orderTimeLines: {
+          select: {
+            id: true,
+            content: true,
+            createdAt: true,
+          },
+        },
+      },
+    });
+    return order;
+  }
+
   async getAllOrders(filters: {
     status: OrderStatus | undefined;
     vendorId: number | undefined;

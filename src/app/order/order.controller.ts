@@ -115,4 +115,12 @@ export class OrderController {
 
     return result;
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/:id')
+  getOne(@Param('id') id: number) {
+    const result = this.orderService.getOneOrder(+id);
+
+    return result;
+  }
 }
