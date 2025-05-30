@@ -20,6 +20,8 @@ import { ProductCategoryModule } from './app/product-category/product-category.m
 import { FavoritesModule } from './app/favorites/favorites.module';
 import { ProductModule } from './app/product/product.module';
 import { CartModule } from './app/cart/cart.module';
+import { OrderModule } from './app/order/order.module';
+import { ChatGateway } from './order.gateway';
 
 @Module({
   imports: [
@@ -43,8 +45,9 @@ import { CartModule } from './app/cart/cart.module';
     FavoritesModule,
     ProductModule,
     CartModule,
+    OrderModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ChatGateway],
 })
 export class AppModule {}

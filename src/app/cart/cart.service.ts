@@ -170,6 +170,8 @@ export class CartService {
             id: true,
             name: true,
             cover: true,
+            weekTimes: true,
+            orderTime: true,
           },
         },
         products: {
@@ -212,6 +214,8 @@ export class CartService {
               id: true,
               name: true,
               cover: true,
+              weekTimes: true,
+              orderTime: true,
             },
           },
           products: {

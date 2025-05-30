@@ -46,7 +46,7 @@ export class NotificationService {
           title: data.title,
           body: data.content,
         },
-        token: user.fcm,
+        token: user.fcm ? user.fcm : 'fff4',
       };
     }
 

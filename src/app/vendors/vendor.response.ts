@@ -26,17 +26,10 @@ export const vendorSelect = {
   },
 } satisfies Prisma.UserSelect;
 
-export const vendorReform = (
-  vendor: Prisma.UserGetPayload<{
-    select: typeof vendorSelect;
-  }> | null,
-) => {
-  if (!vendor) {
-    return null;
-  }
+export const checkIfOpen = (weekTimes: any) => {
   const now = dayjs(); // current time
   const dayKey = now.format('dddd').toLowerCase(); // e.g. "monday"
-  const { weekTimes } = vendor.vendor;
+  // const { weekTimes } = vendor.vendor;
 
   // Parse JSON string if necessary
   const parsedTimes =
@@ -51,13 +44,27 @@ export const vendorReform = (
   if (now.isAfter(from) && now.isBefore(to)) {
     isOpen = true;
   }
+  return isOpen ? 'OPEN' : 'CLOSED';
+};
+
+export const vendorReform = (
+  vendor: Prisma.UserGetPayload<{
+    select: typeof vendorSelect;
+  }> | null,
+) => {
+  if (!vendor) {
+    return null;
+  }
+
+  const { weekTimes } = vendor.vendor;
+
   const vendorReformed = {
     id: vendor.id,
     avatar: vendor.avatar,
     subCategoryId: vendor.subCategoryId,
     mainCategoryId: vendor.mainCategoryId,
     ...vendor.vendor,
-    status: isOpen ? 'OPEN' : 'CLOSED',
+    status: checkIfOpen(weekTimes),
   };
   return vendorReformed;
 };
