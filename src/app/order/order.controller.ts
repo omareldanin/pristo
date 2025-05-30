@@ -121,6 +121,6 @@ export class OrderController {
   getOne(@Param('id') id: number) {
     const result = this.orderService.getOneOrder(+id);
 
-    return result;
+    return { result };
   }
 }
