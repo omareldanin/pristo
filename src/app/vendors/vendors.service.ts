@@ -155,6 +155,17 @@ export class VendorsService {
     };
   }
 
+  async getOne(id: number) {
+    const vendor = await this.prisma.user.findUnique({
+      where: { id: +id },
+      select: vendorSelect,
+    });
+
+    return {
+      results: vendorReform(vendor),
+    };
+  }
+
   async updateVendor(data: { id: number; vendorData: VendorUpdateType }) {
     const vendor = await this.prisma.user.update({
       where: {

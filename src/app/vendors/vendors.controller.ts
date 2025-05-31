@@ -89,6 +89,13 @@ export class VendorsController {
     return result;
   }
 
+  @Get('/:id')
+  getOne(@Param('id') id: number) {
+    const result = this.vendorService.getOne(+id);
+
+    return result;
+  }
+
   @UseInterceptors(
     FileFieldsInterceptor(
       [
