@@ -4,6 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { loginResponse } from './auth.dto';
 import { env } from 'src/config';
+import { UserRole } from '@prisma/client';
 
 const phonesOtp: { phone: string; otp: string }[] = [];
 
@@ -18,8 +19,13 @@ export class AuthService {
     phone: string,
     password: string,
     fcm: string | undefined,
+    role: UserRole,
   ): Promise<loginResponse> {
-    let user = await this.usersService.findOne({ phone: phone, id: undefined });
+    let user = await this.usersService.findOne({
+      phone: phone,
+      id: undefined,
+      role,
+    });
 
     if (!user) {
       throw new UnauthorizedException('خطأ في البيانات , اعد المحاوله');
@@ -67,6 +73,7 @@ export class AuthService {
     let user = await this.usersService.findOne({
       phone: data.phone,
       id: undefined,
+      role: 'CUSTOMER',
     });
 
     if (user) {
@@ -155,6 +162,7 @@ export class AuthService {
     let user = await this.usersService.findOne({
       phone: data.phone,
       id: undefined,
+      role: 'CUSTOMER',
     });
 
     if (

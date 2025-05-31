@@ -88,8 +88,8 @@ model User {
 }
 
 model Delivery {
-  id Int @id @default(autoincrement())
-
+  id     Int     @id @default(autoincrement())
+  online Boolean @default(false)
   orders Order[]
 
   user User @relation(fields: [id], references: [id])

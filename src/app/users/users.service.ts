@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
+import { User, UserRole } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { env } from 'src/config';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -11,14 +11,17 @@ export class UsersService {
   async findOne(params: {
     phone: string | undefined;
     id: number | undefined;
+    role: UserRole;
   }): Promise<User | undefined> {
     return await this.prisma.user.findFirst({
       where: params.id
         ? {
             id: params.id,
+            role: params.role,
           }
         : {
             phone: params.phone,
+            role: params.role,
           },
     });
   }

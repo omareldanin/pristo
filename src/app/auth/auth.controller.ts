@@ -31,9 +31,35 @@ export class AuthController {
       signInDto.phone,
       signInDto.password,
       signInDto.fcm,
+      'CUSTOMER',
     );
   }
 
+  //sign in request-----------------------------
+  @HttpCode(HttpStatus.OK)
+  @Post('/vendor/login')
+  @UseInterceptors(NoFilesInterceptor())
+  signInVendor(@Body() signInDto: loginDto) {
+    return this.authService.signIn(
+      signInDto.phone,
+      signInDto.password,
+      signInDto.fcm,
+      'VENDOR',
+    );
+  }
+
+  //sign in request-----------------------------
+  @HttpCode(HttpStatus.OK)
+  @Post('/delivery/login')
+  @UseInterceptors(NoFilesInterceptor())
+  signInDelivery(@Body() signInDto: loginDto) {
+    return this.authService.signIn(
+      signInDto.phone,
+      signInDto.password,
+      signInDto.fcm,
+      'DELIVERY',
+    );
+  }
   //sign up request -----------------------------
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(NoFilesInterceptor())
