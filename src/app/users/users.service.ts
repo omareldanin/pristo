@@ -35,7 +35,7 @@ export class UsersService {
     let user = await this.findOne({
       phone: data.phone,
       id: undefined,
-      role: 'DELIVERY',
+      role: undefined,
     });
 
     if (user) {

@@ -47,6 +47,6 @@ export class UsersController {
       avatar: 'uploads/' + file?.filename,
     });
 
-    return { delivery };
+    return delivery;
   }
 }
