@@ -139,6 +139,7 @@ export class AuthController {
       name: string;
       phone: string;
       fcm: string | undefined;
+      online: string | undefined;
     },
     @Req() req,
   ) {
@@ -150,6 +151,7 @@ export class AuthController {
       avatar: 'uploads/' + file?.filename,
       name: data.name,
       fcm: data.fcm,
+      online: data.online,
     });
   }
 }

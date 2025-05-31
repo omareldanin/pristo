@@ -210,6 +210,7 @@ export class AuthService {
     phone: string | undefined;
     avatar: string | undefined;
     fcm: string | undefined;
+    online: string | undefined;
   }): Promise<loginResponse> {
     const user = await this.usersService.updateProfile(data);
 

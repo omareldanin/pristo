@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { User, UserRole } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { env } from 'src/config';
@@ -23,6 +23,42 @@ export class UsersService {
             phone: params.phone,
             role: params.role,
           },
+    });
+  }
+
+  async createDelivery(data: {
+    name: string | undefined;
+    phone: string;
+    password: string;
+    avatar: string | undefined;
+  }) {
+    let user = await this.findOne({
+      phone: data.phone,
+      id: undefined,
+      role: 'DELIVERY',
+    });
+
+    if (user) {
+      throw new UnauthorizedException('هذا الرقم مسجل مسبفا');
+    }
+
+    return await this.prisma.user.create({
+      data: {
+        name: data.name,
+        phone: data.phone,
+        password: bcrypt.hashSync(
+          data.password + (env.PASSWORD_SALT as string),
+          12,
+        ),
+        role: 'DELIVERY',
+        avatar: data.avatar,
+        delivery: {
+          create: {
+            online: false,
+          },
+        },
+        token: '',
+      },
     });
   }
 
@@ -72,12 +108,30 @@ export class UsersService {
     phone: string | undefined;
     avatar: string | undefined;
     fcm: string | undefined;
+    online: string | undefined;
   }): Promise<User> {
     const user = await this.prisma.user.update({
       where: {
         id: data.id,
       },
-      data,
+      data: {
+        name: data.name,
+        phone: data.phone,
+        avatar: data.avatar,
+        fcm: data.fcm,
+        delivery: {
+          update: {
+            data: {
+              online:
+                data.online === 'true'
+                  ? true
+                  : data.online === 'false'
+                    ? false
+                    : undefined,
+            },
+          },
+        },
+      },
     });
 
     return user;
