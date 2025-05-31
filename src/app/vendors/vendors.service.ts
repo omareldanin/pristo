@@ -74,7 +74,9 @@ export class VendorsService {
           },
         },
         name: safeParseJson(data.vendorData.name),
-        weekTimes: safeParseJson(data.vendorData.weekTimes),
+        weekTimes: data.vendorData.weekTimes
+          ? safeParseJson(data.vendorData.weekTimes)
+          : undefined,
         offerName: data.vendorData.offerName
           ? safeParseJson(data.vendorData.offerName)
           : undefined,
