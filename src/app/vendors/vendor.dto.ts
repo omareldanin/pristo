@@ -16,7 +16,7 @@ export const VendorCreateSchema = z.object({
   password: z
     .string()
     .min(6, { message: 'يجب ان يكون الرقم السري اكبر من 6 حروف' }),
-  status: z.nativeEnum(VendorStatus),
+  status: z.nativeEnum(VendorStatus).optional(),
   location: z.string().optional(),
   longitudes: z.string().optional(),
   latitude: z.string().optional(),
