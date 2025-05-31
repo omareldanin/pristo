@@ -37,6 +37,7 @@ export class TransactionsService {
     const user = await this.userService.findOne({
       id: +data.userId,
       phone: undefined,
+      role: 'CUSTOMER',
     });
 
     if (!user) {
