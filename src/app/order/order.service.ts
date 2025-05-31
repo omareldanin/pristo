@@ -347,6 +347,14 @@ export class OrderService {
         userId: order.userId,
         topic: undefined,
       });
+      if (data.status === 'PREPARING') {
+        await this.notification.sendNotification({
+          title: 'هناك طلب جديد يتم حضيره',
+          content: 'هناك طلب جديد يتم حضيره',
+          userId: undefined,
+          topic: 'DELIVERY',
+        });
+      }
     }
     this.chatGateway.emitOrderUpdated(`vendor_${order.vendorId}`, order);
     this.chatGateway.emitOrderUpdated(`user_${order.userId}`, order);
