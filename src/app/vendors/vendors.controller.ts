@@ -99,7 +99,7 @@ export class VendorsController {
   @UseInterceptors(
     FileFieldsInterceptor(
       [
-        { name: 'image', maxCount: 1 },
+        { name: 'avatar', maxCount: 1 },
         { name: 'cover', maxCount: 1 },
       ],
       {
