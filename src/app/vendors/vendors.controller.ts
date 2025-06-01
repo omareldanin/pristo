@@ -122,13 +122,13 @@ export class VendorsController {
     @Param('id') id: string,
     @UploadedFiles()
     files: {
-      image?: Express.Multer.File[];
+      avatar?: Express.Multer.File[];
       cover?: Express.Multer.File[];
     },
     @Body()
     data: VendorCreateType,
   ) {
-    const imageFile = files?.image?.[0]?.filename ?? null;
+    const imageFile = files?.avatar?.[0]?.filename ?? null;
     const coverFile = files?.cover?.[0]?.filename ?? null;
 
     const vendorData = VendorUpdateSchema.parse(data);
