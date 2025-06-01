@@ -144,7 +144,6 @@ export class ProductController {
   @UseGuards(JwtAuthGuard)
   @Delete('/delete/:id')
   deleteProduct(
-    @Body()
     @Param('id')
     id: number,
     @Req() req,
