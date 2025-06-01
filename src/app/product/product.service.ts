@@ -244,13 +244,20 @@ export class ProductService {
         description: data.description
           ? safeParseJson(data.description)
           : undefined,
-        price: +data.price,
-        available: data.available,
-        ProductCategory: {
-          connect: {
-            id: +data.productCategoryId,
-          },
-        },
+        price: data.price ? +data.price : undefined,
+        available:
+          data.available === true
+            ? true
+            : data.available === false
+              ? false
+              : undefined,
+        ProductCategory: data.productCategoryId
+          ? {
+              connect: {
+                id: +data.productCategoryId,
+              },
+            }
+          : undefined,
       },
       select: {
         id: true,

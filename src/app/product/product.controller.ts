@@ -21,6 +21,7 @@ import { LoggedInUserType } from '../auth/auth.dto';
 import {
   ProductCreateSchema,
   ProductCreateType,
+  ProductUpdateSchema,
   ProductUpdateType,
 } from './product.dto';
 
@@ -131,7 +132,7 @@ export class ProductController {
   ) {
     const loggedInUser = req.user as LoggedInUserType;
 
-    const productData = ProductCreateSchema.parse(data);
+    const productData = ProductUpdateSchema.parse(data);
 
     const product = this.productService.editOne(+id, {
       ...productData,
