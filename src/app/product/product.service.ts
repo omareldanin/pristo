@@ -241,6 +241,7 @@ export class ProductService {
       },
       data: {
         name: data.name ? safeParseJson(data.name) : undefined,
+        image: data.image ? data.image : undefined,
         description: data.description
           ? safeParseJson(data.description)
           : undefined,
