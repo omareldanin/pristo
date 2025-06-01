@@ -238,6 +238,11 @@ export class VendorsService {
   }
 
   async deleteVendor(id: number) {
+    await this.prisma.vendor.delete({
+      where: {
+        id: +id,
+      },
+    });
     await this.prisma.user.delete({
       where: {
         id: +id,
