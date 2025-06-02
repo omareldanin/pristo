@@ -36,6 +36,7 @@ export class UsersService {
         name: true,
         phone: true,
         avatar: true,
+        wallet: true,
         delivery: {
           select: {
             online: true,
