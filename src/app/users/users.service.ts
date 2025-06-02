@@ -44,7 +44,8 @@ export class UsersService {
         },
       },
     });
-    return user;
+
+    return { results: user };
   }
 
   async createDelivery(data: {

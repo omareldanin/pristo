@@ -58,6 +58,6 @@ export class UsersController {
 
     const user = this.userService.getProfile(+loggedInUser.id);
 
-    return { results: user };
+    return user;
   }
 }
