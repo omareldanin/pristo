@@ -158,6 +158,14 @@ export class OrderService {
         createdAt: true,
         paymentMethod: true,
         time: true,
+        UserAddresses: {
+          select: {
+            id: true,
+            name: true,
+            latitude: true,
+            longitudes: true,
+          },
+        },
         User: {
           select: {
             id: true,
@@ -231,6 +239,14 @@ export class OrderService {
           createdAt: true,
           paymentMethod: true,
           time: true,
+          UserAddresses: {
+            select: {
+              id: true,
+              name: true,
+              latitude: true,
+              longitudes: true,
+            },
+          },
           User: {
             select: {
               id: true,
