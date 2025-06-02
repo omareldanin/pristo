@@ -87,6 +87,20 @@ export class ProductService {
           price: true,
           available: true,
           image: true,
+          groups: {
+            select: {
+              id: true,
+              name: true,
+              multi: true,
+              options: {
+                select: {
+                  id: true,
+                  name: true,
+                  price: true,
+                },
+              },
+            },
+          },
           ProductCategory: {
             select: {
               id: true,
