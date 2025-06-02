@@ -319,6 +319,8 @@ export class OrderService {
       deliveryAgentId: number | undefined;
     },
   ) {
+    console.log(data);
+
     const order = await this.prisma.order.findUnique({
       where: {
         id: +orderId,

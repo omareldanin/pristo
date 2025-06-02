@@ -49,4 +49,14 @@ export class UsersController {
 
     return delivery;
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/get-profile')
+  getUserProfile(@Req() req) {
+    const loggedInUser = req.user as LoggedInUserType;
+
+    const user = this.userService.getProfile(+loggedInUser.id);
+
+    return { results: user };
+  }
 }

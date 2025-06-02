@@ -100,6 +100,7 @@ export class OrderController {
     return result;
   }
 
+  @UseInterceptors(NoFilesInterceptor())
   @UseGuards(JwtAuthGuard)
   @Patch('/edit/:id')
   updateOrder(

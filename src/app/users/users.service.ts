@@ -26,6 +26,26 @@ export class UsersService {
     });
   }
 
+  async getProfile(id: number) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: +id,
+      },
+      select: {
+        id: true,
+        name: true,
+        phone: true,
+        avatar: true,
+        delivery: {
+          select: {
+            online: true,
+          },
+        },
+      },
+    });
+    return user;
+  }
+
   async createDelivery(data: {
     name: string | undefined;
     phone: string;
