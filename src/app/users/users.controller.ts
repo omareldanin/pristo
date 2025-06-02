@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
   Req,
   UploadedFile,
@@ -51,7 +52,7 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('/get-profile')
+  @Get('/get-profile')
   getUserProfile(@Req() req) {
     const loggedInUser = req.user as LoggedInUserType;
 
