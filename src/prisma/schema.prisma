@@ -345,3 +345,10 @@ model OrderTimeLine {
   Order     Order?   @relation(fields: [orderId], references: [id])
   orderId   Int?
 }
+
+model General {
+  id      Int     @id @default(autoincrement())
+  name    String
+  content String
+  active  Boolean @default(false)
+}

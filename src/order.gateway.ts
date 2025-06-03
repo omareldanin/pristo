@@ -35,6 +35,9 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   emitOrderUpdated(room: string, payload: any) {
     this.server.to(room).emit('updatedOrder', payload);
   }
+  emitOptionUpdated(room: string, payload: any) {
+    this.server.to(room).emit('general', payload);
+  }
   private server: Server;
 
   afterInit(server: Server) {
