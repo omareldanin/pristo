@@ -36,6 +36,16 @@ export class ProductCategoryService {
       where: {
         mainCategoryId: mainCategoryId ? +mainCategoryId : undefined,
       },
+      select: {
+        id: true,
+        name: true,
+        MainCategory: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
     });
 
     return { results };

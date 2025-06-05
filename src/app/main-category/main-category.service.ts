@@ -33,7 +33,11 @@ export class MainCategoryService {
   }
 
   async getAllMainCategories(): Promise<{ results: MainCategory[] }> {
-    const result = await this.prisma.mainCategory.findMany();
+    const result = await this.prisma.mainCategory.findMany({
+      where: {
+        deleted: false,
+      },
+    });
 
     return { results: result };
   }

@@ -79,7 +79,7 @@ export class BannerController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete(':id')
+  @Delete('/:id')
   deleteBanner(@Param() params: any) {
     const result = this.bannerService.deleteBanner(+params.id);
     return result;

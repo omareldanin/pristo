@@ -48,9 +48,26 @@ export class AuthService {
       role: user.role,
     };
 
-    const token = await this.jwtService.signAsync(payload);
+    const token = this.jwtService.sign(payload, {
+      secret: env.ACCESS_TOKEN_SECRET as string,
+      expiresIn: env.ACCESS_TOKEN_EXPIRES_IN,
+    });
 
-    await this.usersService.updateToken(user.id, token, fcm);
+    const refreshToken = this.jwtService.sign(
+      {
+        id: user?.id,
+      },
+      {
+        secret: env.REFRESH_TOKEN_SECRET as string,
+        expiresIn: env.REFRESH_TOKEN_EXPIRES_IN,
+      },
+    );
+
+    const result = await this.usersService.updateToken({
+      id: +user.id,
+      refreshToken,
+      fcm,
+    });
 
     return {
       message: 'تم تسجيل الدخول بنجاح',
@@ -61,6 +78,49 @@ export class AuthService {
       avatar: user.avatar,
       wallet: user.wallet,
       token,
+      refreshToken: result.refresh_token,
+    };
+  }
+
+  async refreshToken(refresh_token: string) {
+    // 1) Check if token is valid
+    const decoded = this.jwtService.verify(refresh_token, {
+      secret: env.REFRESH_TOKEN_SECRET as string,
+    }) as {
+      id: number;
+    };
+
+    // 2) Check if refresh token is in the database
+    const refreshTokens = await this.usersService.getUserRefreshTokens(
+      decoded.id,
+    );
+
+    if (!refreshTokens || !refreshTokens.includes(refresh_token)) {
+      throw new UnauthorizedException('الرجاء تسجيل الدخول');
+    }
+
+    const user = await this.usersService.getUserByID(decoded.id);
+    if (!user) {
+      throw new UnauthorizedException('الرجاء تسجيل الدخول');
+    }
+
+    const payload = {
+      id: user.id,
+      name: user.name,
+      phone: user.phone,
+      avatar: user.avatar,
+      wallet: user.wallet,
+      role: user.role,
+    };
+
+    const token = this.jwtService.sign(payload, {
+      secret: env.ACCESS_TOKEN_SECRET as string,
+      expiresIn: env.ACCESS_TOKEN_EXPIRES_IN,
+    });
+
+    return {
+      message: 'success',
+      token: token,
     };
   }
 
@@ -91,19 +151,37 @@ export class AuthService {
       role: createdUser.role,
     };
 
-    const token = await this.jwtService.signAsync(payload);
+    const token = this.jwtService.sign(payload, {
+      secret: env.ACCESS_TOKEN_SECRET as string,
+      expiresIn: env.ACCESS_TOKEN_EXPIRES_IN,
+    });
 
-    await this.usersService.updateToken(createdUser.id, token, data.fcm);
+    const refreshToken = this.jwtService.sign(
+      {
+        id: user?.id,
+      },
+      {
+        secret: env.REFRESH_TOKEN_SECRET as string,
+        expiresIn: env.REFRESH_TOKEN_EXPIRES_IN,
+      },
+    );
+
+    const result = await this.usersService.updateToken({
+      id: +user.id,
+      refreshToken,
+      fcm: data.fcm,
+    });
 
     return {
-      message: 'تم تسجيل الحساب بنجاح',
-      id: createdUser.id,
-      name: createdUser.name,
-      phone: createdUser.phone,
-      role: createdUser.role,
-      avatar: createdUser.avatar,
-      wallet: createdUser.wallet,
+      message: 'تم تسجيل الدخول بنجاح',
+      id: user.id,
+      name: user.name,
+      phone: user.phone,
+      role: user.role,
+      avatar: user.avatar,
+      wallet: user.wallet,
       token,
+      refreshToken: result.refresh_token,
     };
   }
 
@@ -188,9 +266,26 @@ export class AuthService {
       role: user.role,
     };
 
-    const token = await this.jwtService.signAsync(payload);
+    const token = this.jwtService.sign(payload, {
+      secret: env.ACCESS_TOKEN_SECRET as string,
+      expiresIn: env.ACCESS_TOKEN_EXPIRES_IN,
+    });
 
-    await this.usersService.updateToken(user.id, token, undefined);
+    const refreshToken = this.jwtService.sign(
+      {
+        id: user?.id,
+      },
+      {
+        secret: env.REFRESH_TOKEN_SECRET as string,
+        expiresIn: env.REFRESH_TOKEN_EXPIRES_IN,
+      },
+    );
+
+    const result = await this.usersService.updateToken({
+      id: +user.id,
+      refreshToken,
+      fcm: undefined,
+    });
 
     return {
       message: 'تم تغيير الرقم السري بنجاح',
@@ -201,6 +296,7 @@ export class AuthService {
       avatar: user.avatar,
       wallet: user.wallet,
       token,
+      refreshToken: result.refresh_token,
     };
   }
 
@@ -223,6 +319,7 @@ export class AuthService {
       wallet: user.wallet,
       role: user.role,
       token: user.token,
+      refreshToken: user.refresh_token,
     };
   }
 }

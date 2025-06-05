@@ -38,6 +38,17 @@ export class SubCategoryService {
       where: {
         mainCategoryId: +mainCategoryId || undefined,
       },
+      select: {
+        id: true,
+        name: true,
+        image: true,
+        mainCategory: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
     });
 
     return { results };
@@ -54,7 +65,7 @@ export class SubCategoryService {
         id: +data.id,
       },
       data: {
-        name: data.name,
+        name: safeParseJson(data.name),
         image: data.image,
         mainCategory: data.mainCategoryId
           ? {

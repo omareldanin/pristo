@@ -35,6 +35,15 @@ export class AuthController {
     );
   }
 
+  @HttpCode(HttpStatus.OK)
+  @Post('/validate-token')
+  @UseGuards(JwtAuthGuard)
+  refreshToken() {
+    return {
+      message: 'success',
+    };
+  }
+
   //sign in request-----------------------------
   @HttpCode(HttpStatus.OK)
   @Post('/vendor/login')
@@ -58,6 +67,18 @@ export class AuthController {
       signInDto.password,
       signInDto.fcm,
       'DELIVERY',
+    );
+  }
+  //sign in request-----------------------------
+  @HttpCode(HttpStatus.OK)
+  @Post('/admin/login')
+  @UseInterceptors(NoFilesInterceptor())
+  signInAdmin(@Body() signInDto: loginDto) {
+    return this.authService.signIn(
+      signInDto.phone,
+      signInDto.password,
+      signInDto.fcm,
+      'ADMIN',
     );
   }
   //sign up request -----------------------------

@@ -105,23 +105,57 @@ export class UsersService {
     });
   }
 
-  async updateToken(
-    id: number,
-    token: string,
-    fcm: string | undefined,
-  ): Promise<{ token: string }> {
+  async updateToken(data: {
+    id: number;
+    refreshToken?: string;
+    refreshTokens?: string[];
+    fcm: string | undefined;
+  }): Promise<{ refresh_token: string[] }> {
     return await this.prisma.user.update({
       where: {
-        id: id,
+        id: +data.id,
       },
       data: {
-        token,
-        fcm,
+        fcm: data.fcm ? data.fcm : undefined,
+        // Only one session is allowed
+        refresh_token: data.refreshToken
+          ? { set: [data.refreshToken] }
+          : data.refreshTokens
+            ? { set: data.refreshTokens }
+            : undefined,
       },
       select: {
-        token: true,
+        refresh_token: true,
       },
     });
+  }
+
+  async getUserByID(userID: number) {
+    const returnedUser = await this.prisma.user.findUnique({
+      where: {
+        id: userID,
+      },
+      select: {
+        id: true,
+        name: true,
+        phone: true,
+        role: true,
+        avatar: true,
+        wallet: true,
+      },
+    });
+    return returnedUser;
+  }
+  async getUserRefreshTokens(userID: number) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: userID,
+      },
+      select: {
+        refresh_token: true,
+      },
+    });
+    return user?.refresh_token;
   }
 
   async updateProfile(data: {

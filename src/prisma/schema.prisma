@@ -59,7 +59,7 @@ model User {
   fcm               String?
   password          String
   token             String
-  refresh_token     String?
+  refresh_token     String[]
   wallet            Decimal         @default(0)
   role              UserRole
   addresses         UserAddresses[]

@@ -16,6 +16,7 @@ export interface loginResponse {
   wallet: Decimal;
   role: UserRole;
   token: string;
+  refreshToken: string[];
 }
 
 export interface LoggedInUserType {
