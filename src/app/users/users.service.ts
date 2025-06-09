@@ -48,6 +48,57 @@ export class UsersService {
     return { results: user };
   }
 
+  async getAllUser(filters: { role: UserRole; page: number; size: number }) {
+    const page = +filters.page || 1;
+    const pageSize = +filters.size || 10000;
+
+    const [results, total] = await Promise.all([
+      this.prisma.user.findMany({
+        where: {
+          role: filters.role,
+        },
+        select: {
+          id: true,
+          name: true,
+          phone: true,
+          avatar: true,
+          wallet: true,
+          delivery: {
+            select: {
+              online: true,
+            },
+          },
+        },
+        orderBy: {
+          id: 'asc',
+        },
+        skip: (page - 1) * +pageSize,
+        take: +pageSize,
+      }),
+      this.prisma.user.count({
+        where: {
+          role: filters.role,
+        },
+      }),
+    ]);
+
+    return {
+      count: total,
+      page,
+      totalPages: Math.ceil(total / pageSize),
+      results: results,
+    };
+  }
+
+  async deleteUser(id: number) {
+    await this.prisma.user.delete({
+      where: {
+        id: +id,
+      },
+    });
+
+    return { message: 'success' };
+  }
   async createDelivery(data: {
     name: string | undefined;
     phone: string;
@@ -146,6 +197,7 @@ export class UsersService {
     });
     return returnedUser;
   }
+
   async getUserRefreshTokens(userID: number) {
     const user = await this.prisma.user.findUnique({
       where: {
@@ -211,5 +263,24 @@ export class UsersService {
         token: true,
       },
     });
+  }
+  async updateDelivery(data: {
+    id: number;
+    name: string | undefined;
+    phone: string | undefined;
+    avatar: string | undefined;
+  }) {
+    const user = await this.prisma.user.update({
+      where: {
+        id: data.id,
+      },
+      data: {
+        name: data.name,
+        phone: data.phone,
+        avatar: data.avatar ? data.avatar : undefined,
+      },
+    });
+
+    return user;
   }
 }

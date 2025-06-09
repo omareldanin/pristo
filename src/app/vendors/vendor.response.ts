@@ -7,7 +7,9 @@ export const vendorSelect = {
   id: true,
   avatar: true,
   subCategoryId: true,
+  homeCategoryId: true,
   mainCategoryId: true,
+  phone: true,
   vendor: {
     select: {
       id: true,
@@ -22,6 +24,8 @@ export const vendorSelect = {
       pickUp: true,
       weekTimes: true,
       orderTime: true,
+      feature: true,
+      active: true,
     },
   },
 } satisfies Prisma.UserSelect;
@@ -61,8 +65,10 @@ export const vendorReform = (
   const vendorReformed = {
     id: vendor.id,
     avatar: vendor.avatar,
+    phone: vendor.phone,
     subCategoryId: vendor.subCategoryId,
     mainCategoryId: vendor.mainCategoryId,
+    homeCategoryId: vendor.homeCategoryId,
     ...vendor.vendor,
     status: checkIfOpen(weekTimes),
   };

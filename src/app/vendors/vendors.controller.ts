@@ -36,7 +36,7 @@ export class VendorsController {
   @UseInterceptors(
     FileFieldsInterceptor(
       [
-        { name: 'image', maxCount: 1 },
+        { name: 'avatar', maxCount: 1 },
         { name: 'cover', maxCount: 1 },
       ],
       {
@@ -58,13 +58,13 @@ export class VendorsController {
   createVendor(
     @UploadedFiles()
     files: {
-      image?: Express.Multer.File[];
+      avatar?: Express.Multer.File[];
       cover?: Express.Multer.File[];
     },
     @Body()
     data: VendorCreateType,
   ) {
-    const imageFile = files.image?.[0]?.filename ?? null;
+    const imageFile = files.avatar?.[0]?.filename ?? null;
     const coverFile = files.cover?.[0]?.filename ?? null;
 
     const vendorData = VendorCreateSchema.parse(data);

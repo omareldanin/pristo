@@ -124,4 +124,12 @@ export class OrderController {
 
     return { result };
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('/delete/:id')
+  deleteOrder(@Param('id') id: number) {
+    const result = this.orderService.deleteOrder(+id);
+
+    return { result };
+  }
 }

@@ -92,7 +92,7 @@ model Delivery {
   online Boolean @default(false)
   orders Order[]
 
-  user User @relation(fields: [id], references: [id])
+  user User @relation(fields: [id], references: [id], onDelete: Cascade)
 }
 
 model Vendor {
@@ -114,7 +114,7 @@ model Vendor {
   offerName         Json?
   rate              Decimal      @default(0)
   reviewsCount      Int          @default(0)
-  user              User         @relation(fields: [id], references: [id])
+  user              User         @relation(fields: [id], references: [id], onDelete: Cascade)
   //-------------------------------------------------------------------------------
   Product           Product[]
   carts             Cart[]
@@ -127,7 +127,7 @@ model UserAddresses {
   name       String?
   longitudes String?
   latitude   String?
-  User       User?   @relation(fields: [userId], references: [id])
+  User       User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     Int?
   orders     Order[]
 }
@@ -139,7 +139,7 @@ model Transaction {
   walletAfter  Decimal
   type         TransactionType
   createdBy    String
-  User         User?           @relation(fields: [userId], references: [id])
+  User         User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
   userId       Int?
   // --- OTHER --------------------------------------------------------------------- //
   createdAt    DateTime        @default(now())
@@ -222,7 +222,7 @@ model Complain {
   title       String?
   description String?
   userId      Int
-  user        User     @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   // --- OTHER ---------------------------------------------------------------------//
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -250,7 +250,7 @@ model Product {
   //---relations------------------------------------------------------------------//
   favoritedByUsers User[]  @relation("UserFavoritesProducts")
 
-  Vendor            Vendor?          @relation(fields: [vendorId], references: [id])
+  Vendor            Vendor?          @relation(fields: [vendorId], references: [id], onDelete: Cascade)
   vendorId          Int?
   // --- OTHER ---------------------------------------------------------------------//
   createdAt         DateTime         @default(now())
@@ -265,7 +265,7 @@ model Group {
   id        Int      @id @default(autoincrement())
   name      Json
   multi     Boolean
-  Product   Product? @relation(fields: [productId], references: [id])
+  Product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int?
   options   Option[]
 }
@@ -274,7 +274,7 @@ model Option {
   id      Int     @id @default(autoincrement())
   name    Json
   price   Decimal
-  Group   Group?  @relation(fields: [groupId], references: [id])
+  Group   Group?  @relation(fields: [groupId], references: [id], onDelete: Cascade)
   groupId Int?
 }
 
@@ -286,7 +286,7 @@ model Cart {
   quantity  Int           @default(0)
   vendor    Vendor?       @relation(fields: [vendorId], references: [id])
   vendorId  Int?
-  user      User          @relation(fields: [userId], references: [id])
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int           @unique
   products  CartProduct[]
   // --- OTHER ---------------------------------------------------------------------//
@@ -301,7 +301,7 @@ model CartProduct {
   quantity  Int      @default(0)
   groups    Json?
   ordered   Boolean  @default(false)
-  Cart      Cart?    @relation(fields: [cartId], references: [id])
+  Cart      Cart?    @relation(fields: [cartId], references: [id], onDelete: Cascade)
   cartId    Int?
   product   Product? @relation(fields: [productId], references: [id])
   productId Int?
@@ -324,13 +324,13 @@ model Order {
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
   //---relations--------------------------------------------------------------------//
-  User            User?           @relation(fields: [userId], references: [id])
+  User            User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
   userId          Int?
-  Vendor          Vendor?         @relation(fields: [vendorId], references: [id])
+  Vendor          Vendor?         @relation(fields: [vendorId], references: [id], onDelete: SetNull)
   vendorId        Int?
-  UserAddresses   UserAddresses?  @relation(fields: [userAddressesId], references: [id])
+  UserAddresses   UserAddresses?  @relation(fields: [userAddressesId], references: [id], onDelete: SetNull)
   userAddressesId Int?
-  Delivery        Delivery?       @relation(fields: [deliveryId], references: [id])
+  Delivery        Delivery?       @relation(fields: [deliveryId], references: [id], onDelete: SetNull)
   deliveryId      Int?
   products        CartProduct[]
   orderTimeLines  OrderTimeLine[]
